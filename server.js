@@ -19,14 +19,16 @@ app.use('/', Router);
 
 if(process.env.NODE_ENV === 'production'){
     // only executes in heroku
-    app.use(express.static("client/build"));
+    app.use(express.static('client/build'));
+
+    app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, 'client', 'build','index.html')));
 }
 
 const PORT = process.env.PORT || 8000 ;
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
 
-const URL = process.end.MONGODB_URI ||  `mongodb+srv://${username}:${password}@blog-app.y7pzgvx.mongodb.net/?retryWrites=true&w=majority`;
+const URL = process.env.MY_MONGO_URI ||  `mongodb+srv://${username}:${password}@blog-app.y7pzgvx.mongodb.net/?retryWrites=true&w=majority`;
 
 
 Connection(URL);
